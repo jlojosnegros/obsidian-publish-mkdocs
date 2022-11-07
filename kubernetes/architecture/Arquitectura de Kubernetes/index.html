@@ -1,0 +1,636 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-8.5.8" name="generator"/>
+<title>Arquitectura de Kubernetes - obsidian-mkdocs template</title>
+<link href="../../../assets/stylesheets/main.20d9efc8.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.815d1a91.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="pink" data-md-color-scheme="default" dir="ltr">
+<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#arquitectura-de-kubernetes">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="obsidian-mkdocs template" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="obsidian-mkdocs template">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            obsidian-mkdocs template
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Arquitectura de Kubernetes
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="pink" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="pink" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"></path></svg>
+</label>
+</form>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="obsidian-mkdocs template" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="obsidian-mkdocs template">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    obsidian-mkdocs template
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+        Obsidian Notes
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2">
+          Features
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Features" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+          Features
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Features/LaTeX%20Math%20Support/">
+        LaTeX Math Support
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Features/Mermaid%20Diagrams/">
+        Mermaid diagrams
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Features/Text%20Formatting/">
+        Text Formatting
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3">
+          Git
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Git" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+          Git
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Git/Switching%20Development%20Contexts%20with%20Git/">
+        Switching Development Contexts with Git
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4">
+          Topic 1
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Topic 1" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+          Topic 1
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Topic%201/Note%201/">
+        Note 1
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../Topic%201/Note%202/">
+        Note 2
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Kubernetes" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" id="__nav_5_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_1">
+          Architecture
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Architecture" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_1">
+<span class="md-nav__icon md-icon"></span>
+          Architecture
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
+        Arquitectura de Kubernetes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Kubernetes%20Default%20Scheduler%20High%20level%20dynamic%20architecture/">
+        Kubernetes Default Scheduler High level dynamic architecture
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="arquitectura-de-kubernetes">Arquitectura de Kubernetes<a class="headerlink" href="#arquitectura-de-kubernetes" title="Permanent link">¶</a></h1>
+<h1 id="kubernetes">kubernetes<a class="headerlink" href="#kubernetes" title="Permanent link">¶</a></h1>
+<p>![[KubernetesArchitecture.png.png]]</p>
+<h2 id="componentes">Componentes<a class="headerlink" href="#componentes" title="Permanent link">¶</a></h2>
+<h3 id="control-plane">Control Plane<a class="headerlink" href="#control-plane" title="Permanent link">¶</a></h3>
+<p>Aqui es donde están los elementos que manejan el comportamiento del cluster pero que no ejecutan nada de las aplicaciones de los containers.</p>
+<h4 id="componentes_1">Componentes<a class="headerlink" href="#componentes_1" title="Permanent link">¶</a></h4>
+<ul>
+<li>etcd</li>
+<li><a href="#que-hace-el-api-server">API Server</a> #api-server</li>
+<li><a href="#entendiendo-el-funcionamiento-del-scheduler">Scheduler</a></li>
+<li><a href="#controllers-ejecutandose-en-el-controller-manager">Controller Manager</a></li>
+</ul>
+<h3 id="the-nodes-workers">The Nodes ( workers )<a class="headerlink" href="#the-nodes-workers" title="Permanent link">¶</a></h3>
+<p>Aqui es donde se ejecutan los containers de la aplicación.</p>
+<h4 id="componentes_2">Componentes<a class="headerlink" href="#componentes_2" title="Permanent link">¶</a></h4>
+<ul>
+<li>Kubelet</li>
+<li>Kubernetes Service Proxy (kube-proxy)</li>
+<li>Conainer Runtime (Docker, rkt ... )</li>
+</ul>
+<h3 id="add-on-components">Add-on Components<a class="headerlink" href="#add-on-components" title="Permanent link">¶</a></h3>
+<p>A parte de los componentes del Control Plane y de los nodos se necesitan unas cuantas cosas para que todo funcione bien</p>
+<ul>
+<li>Kubernetes DNS Server</li>
+<li>Dashboard</li>
+<li>Ingress Controller</li>
+<li>Heapster</li>
+<li>Container Network Interface network plugin</li>
+</ul>
+<h2 id="como-se-comunican">Como se comunican<a class="headerlink" href="#como-se-comunican" title="Permanent link">¶</a></h2>
+<p>Todos se comunican con el API server.
+El API server es el único que se comunica con la base de datos.
+Todos modifican el estado de la base de datos hablando con el API server.
+La comunicación es siempre comenzada por los otros elementos salvo en algunos casos especiales donde el API server es quien comienza la conexion.
+- Cuando usamos <code>kubectl</code> para obtener los logs
+- Cuando usamos <code>kubectl attach</code>
+- Cuando usamos <code>kubectl port-forward</code></p>
+<h2 id="ejecutando-multiples-instancias">Ejecutando multiples instancias.<a class="headerlink" href="#ejecutando-multiples-instancias" title="Permanent link">¶</a></h2>
+<p>Todos los elementos que tienen los Worker Nodes tienen que correr en el mismo worker node. ( supongo que en cada nodo tienen que estar todos los elementos)</p>
+<p>Sin embargo los elementos del control plane pueden ser ejecutados en distintos servidores. </p>
+<p>Se pueden ejecutar multiples instancias de los elementos del Control plane para tener HA. Sin embargo:
+- <code>Etcd</code> y <code>API server</code> pueden tener varias instancias funcionando en paralelo
+- <code>Scheduler</code> y <code>Controller Manager</code> solo pueden tener una instancia funcionando al mismo tiempo mientras que las demás están en stand-by</p>
+<h3 id="como-se-ejecutan-los-componentes">Como se ejecutan los componentes<a class="headerlink" href="#como-se-ejecutan-los-componentes" title="Permanent link">¶</a></h3>
+<p>Todos los componentes del control plane y el <code>kube-proxy</code> pueden ejecutarse en el sistema directamente o <strong>pueden ejecutarse como pods en el master node</strong>.</p>
+<p><mark>El unico que tiene que ejecutarse como un componente de sistema siempre es <code>Kubelet</code></mark></p>
+<h2 id="como-se-usan-los-componentes">Como se usan los componentes<a class="headerlink" href="#como-se-usan-los-componentes" title="Permanent link">¶</a></h2>
+<h3 id="como-utiliza-k8s-etcd">Como utiliza K8s ETCD<a class="headerlink" href="#como-utiliza-k8s-etcd" title="Permanent link">¶</a></h3>
+<p>Es el único sitio donde se guardan los manifiestos de todos los componentes que se crean en el cluster.
+ Es una base de datos clave-valor distribuida, lo que permite poder tener multiples instancias para tener HA</p>
+<p>El unico que se comunica con el etcd es el API Server. Esto tiene unas ventajas
+ - Se puede cambiar la base de datos con facilidad adaptando el API server.
+ - Puede implementarse un sistema de locking optimista 
+ - Se puede hacer validacion de los elementos antes de guardarlos o de recuperarlos.</p>
+<h4 id="como-se-guardan-las-cosas-en-etcd">Como se guardan las cosas en etcd<a class="headerlink" href="#como-se-guardan-las-cosas-en-etcd" title="Permanent link">¶</a></h4>
+<p>Hay dos versiones en uso v2 y v3 ( aunque seguramente ahora la v2 ya no se use porque la v3 tiene mejor performance.)</p>
+<p>En v2
+- Las claves son jerarquicas y estan guardadas en arbol, por lo que puede pensarse en la clave de una entrada como en el nombre completo de un fichero en un arbol de directorios.
+- Por tanto cada clave es:
+  - O bien un directorio que a su vez contiene otras claves
+  - O bien una clave regular que contiene un valor.</p>
+<p>En v3
+- No soporta el concepto de directorios per se, pero como las claves siguen siendo organizadas de manera jerárquica y se pueden poner <code>/</code>, podemos seguir pensando en ellas como el nombre completo de un fichero dentro de un filesystem.</p>
+<p>Todos los datos que kubernetes guarda en etcd se guardan debajo de <code>/registry</code></p>
+<pre><code class="language-ad-example">title: Listado de entradas en etcd
+
+V2
+```bash
+$ etcdctl ls /registry
+```
+
+V3: Las entradas cuya clave empieza por un prefijo determinado.
+```bash
+$ etcdtl get /registry --prefix=true
+```
+
+Salida
+```bash
+/registry/configmaps
+/registry/daemonsets
+/registry/deployments
+/registry/events
+/registry/namespaces
+/registry/pods
+...
+```
+</code></pre>
+<pre><code class="language-ad-exmaple">title : pods en el namespace default
+collapse: true
+```bash
+$ etcdctl ls /registry/pods/default
+/registry/pods/default/kubia-159041347-xk0vc
+/registry/pods/default/kubia-159041347-wt6ga
+/registry/pods/default/kubia-159041347-hp2o5
+```
+
+y esto es lo que se guarda de una entrada en particular
+```bash
+$ etcdctl get /registry/pods/default/kubia-159041347-wt6ga
+{"kind":"Pod","apiVersion":"v1","metadata":{"name":"kubia-159041347-wt6ga",
+"generateName":"kubia-159041347-","namespace":"default","selfLink":...
+```
+
+
+Como puede verse es un documento en formato json.
+</code></pre>
+<h4 id="consistencia-en-etcd-cuando-hay-un-cluster">Consistencia en ETCD cuando hay un cluster.<a class="headerlink" href="#consistencia-en-etcd-cuando-hay-un-cluster" title="Permanent link">¶</a></h4>
+<p>Como podemos tener multiples instancias de etcd en un cluster tenemos que asegurar que hay consistencia en el estado que muestran todas.</p>
+<p>Para esto se utiliza el [[Algoritmo RAFT]]
+Es un algoritmo de consenso, de manera que para transicionar a un nuevo estado, mas de la mitad de los nodos tienen que estar de acuerdo.
+En este algoritmo se asegura que una determinada instancia de etcd o bien muestra el ultimo estado al que se ha llegado o bien muestra uno de los antiguos estados a los que se llego por consenso.</p>
+<p>Si se produce un split brain, si una de las particiones tiene la mayoria de los nodos evidentemente la otra no los tendrá.
+Por tanto la primera particion si que podrá transicionar de estado porque tienen la mayoria, mientras que la otra no podrá modificar el estado del cluster, quedándose en un estado válido.,
+Cuando la situacion se solucione los nodos que estaban en un estado antiguo, pero valido, podrán recuperarse y hacer catch-up.</p>
+<p>Debido a la necesidad de quorum es mejor siempre tener un numero impar de instancias de etcd. Teniendo un numero par no aumentamos el numero de fallos de instancias a los que somos resilientes, pero si que aumentamos la posibilidad de fallo, ya que a mas instancias en el cluster mas posibilidades de que alguna falle.</p>
+<p>Normalmente los clusters mas grandes de etcd tienen CINCO o SIETE instancias, lo que permite manejar sin problemas el fallo de DOS o TRES instancias, lo que suele ser suficiente en la mayoria de los casos.</p>
+<h3 id="que-hace-el-api-server">Que hace el API server<a class="headerlink" href="#que-hace-el-api-server" title="Permanent link">¶</a></h3>
+<h4 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">¶</a></h4>
+<ul>
+<li>Es el componente que todos los demas componentes, incluido el <code>kubectl</code> utilizan para poder interactuar con el sistema.</li>
+<li>Provee un interface CRUD sobre un API Rest</li>
+<li>Guarda todos los datos en ETCD</li>
+<li>Provee consistencia en los datos que se guardan</li>
+<li>Chequea los datos que los demas componentes quieren guardar en etcd antes de guardarlos para evitar estados inconsistentes del sistema</li>
+<li>Implementa un Optimistic Locking system</li>
+<li>Dado que podemos tener multiples instancias de API server ejecutandose de manera concurrente tenemos que evitar que los cambios puedan sobreescribir otros cambios que se estén haciendo en ese momento</li>
+</ul>
+<pre><code class="language-ad-example">
+'kubectl' es uno de los clientes del API server.
+Cuando creamos un nuevo recurso con un fichero `yaml` lo que hace es enviar un HTTP POST con el fichero en formato json y esto es lo que pasa en el API Server
+
+![[APIServerHTTPPOST.png]]
+</code></pre>
+<h4 id="stages">Stages<a class="headerlink" href="#stages" title="Permanent link">¶</a></h4>
+<h5 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h5>
+<p>Lo primero que se hace es autenticar al cliente que envia la peticion.
+Se envia la peticion a una lista de plugins de autenticacion que esten configurados en el API server, pasando por todos hasta que uno de ellos sea capaz de determinar quien es el cliente que envia la peticion.</p>
+<h5 id="authorization">Authorization<a class="headerlink" href="#authorization" title="Permanent link">¶</a></h5>
+<p>Una vez que sabemos quien es el cliente que pide la accion y que podemos confiar en el, tenemos que ver si dicho cliente tiene autorizacion para poder hacer dicha accion sobre el recurso que esta pidiendo hacerla.
+Para esto estan los plugins de autorizacion.
+La peticion va pasando por los plugins hasta que uno de ellos dice que el cliente puede realizar al accion sobre el recurso pedido.</p>
+<h5 id="admision-control">Admision Control<a class="headerlink" href="#admision-control" title="Permanent link">¶</a></h5>
+<p>Las operaciones de Creacion, Modificacion y Borrado de recursos pasan por una fase adicional, la de Control de Admision.</p>
+<p>En esta fase la peticion pasas <strong>por todos los plugins</strong>.
+Estos plugins pueden modificar la peticion
+- Añadiendo valores por defecto que no existen en el recurso de la peticion
+- Cambiando valores del recursos que exceden limites
+Incluso <strong>pueden modificar recursos relacionados que no estén en la peticion</strong> </p>
+<p>Tambien pueden validad y rechazar la peticion por el contenido que tiene.</p>
+<pre><code class="language-ad-example">title: Ejemplos de Admission Control Plugins.
+
+- `AlwaysPullImages` -&gt; Sobreescribe el `imagePullPolicy` de los Pods y lo pone a `Always`
+- `ServiceAccount` -&gt; Aplica un `ServiceAccount` por defecto a todos los Pods que no definen uno.
+- `NamespaceLifecycle` -&gt; Evita que se puedan crear Pods en namespaces que están en proceso de borrado o que no existen.
+- `ResourceQuota` -&gt; Se asegura que los Pods de un determinado namespace solo puedan utilizar unas cantidades de CPU y memoria determinadas
+</code></pre>
+<h4 id="how-api-server-notifies-clients">How API Server Notifies clients.<a class="headerlink" href="#how-api-server-notifies-clients" title="Permanent link">¶</a></h4>
+<p>El API server permite que los demas componentes pidan ser notificados cuando un recurso es Creado Modificado o Borrado, de manera que pueda hacer lo que sea que tenga que hacer en respuesta a esta operacion.</p>
+<p>El Cliente abre una conexion HTTP al API server y a través de dicha conexion el cliente recive un stream de moficiaciones. 
+Cada vez que uno de los objetos observados cambia se le envia al cliente la nueva version del objeto.</p>
+<p>Este mecanismo lo usa por ejemplo el <code>kubectl</code> cuando pedimos que nos haga un <code>watch</code> de los pods</p>
+<pre><code class="language-bash">kubectl get pods -o yaml --watch
+</code></pre>
+<p>Tambien lo utiliza el Scheduler </p>
+<h3 id="entendiendo-el-funcionamiento-del-scheduler">Entendiendo el funcionamiento del Scheduler<a class="headerlink" href="#entendiendo-el-funcionamiento-del-scheduler" title="Permanent link">¶</a></h3>
+<p><img alt="Kubernetes Default Scheduler High level dynamic architecture" src="../Kubernetes%20Default%20Scheduler%20High%20level%20dynamic%20architecture/"/></p>
+<h3 id="controllers-ejecutandose-en-el-controller-manager">Controllers ejecutandose en el Controller Manager.<a class="headerlink" href="#controllers-ejecutandose-en-el-controller-manager" title="Permanent link">¶</a></h3>
+<h4 id="intro_1">Intro<a class="headerlink" href="#intro_1" title="Permanent link">¶</a></h4>
+<p>Hasta ahora tenemos en el control plane:
+- ETCD: que solo guarda los manifiestos.
+- API Server: que es un interface para que los demas puedan guardar cosas en la base de datos y ser notificados
+- Scheduler: Que se encarga de asingar nodos a los nuevos pods.</p>
+<p>Pero no tenemos nadie que haga nada para mantener el estado del cluster conciliado con el estado de los manifiestos guardados en la base de datos.</p>
+<p>Esto es lo que hace el Controller Manager, o para ser mas exactlos la lista de controllers que se ejecutan en el.</p>
+<pre><code class="language-ad-note">Todos los controller se al formar parte del Control Plane, se ejecutan en el Master Node
+</code></pre>
+<h4 id="controllers-en-general">Controllers en general<a class="headerlink" href="#controllers-en-general" title="Permanent link">¶</a></h4>
+<p>Actualmente ( no tengo claro que eso sea cierto ahora mismo) un solo proceso Controller Manager combina dentro de el varios controllers distintos que realizan distintas labores.
+Eventualmente cada uno de estos controllers será separado en un proceso distinto para que sea mas sencillo cambiarlos.</p>
+<p>Lista de Controllers:
+- Replication Manager -- Un controller para <code>ReplicationController</code> resources
+- ReplicaSet Controller
+- DaemonSet Controller
+- Job Controller
+- Deployment Controller
+- StatefulSet Controller
+- Node Controller
+- Service Controller
+- Endpoints Controller
+- Namespace Controller
+- PersistentVolumeController
+- Others ... que cachondo.</p>
+<p>Basicamente hay un Controller por cada uno de los recursos de kubernetes.</p>
+<p>Los recursos son una declaracion de cual queremos que sea el estado de un cluster. Los Controllers realizan el trabajo de intentar conciliar el estado actual del cluster con el que queremos que sea.</p>
+<p>En general los controllers tienen un "reconciliation loop" donde intentan hacer esta reconciliacion del estado creando, modificando o borrando determinados recursos.</p>
+<blockquote>
+<p>[!note]-
+En cada recurso el <code>spec</code> es donde ponemos el estado esperado mientras que los controllers escriben en el <code>status</code> el estado actual.</p>
+</blockquote>
+<p>Utilizan el sistema de notificacion del API server para saber cuando se modifican los recursos a los que atienden.
+Tambien tienen una operacion "re-list" que ejecutan periodicamente por si acaso han perdido alguna notificacion.</p>
+<p>Los Controllers no hablan nunca unos con otros.
+Los Controllers no saben ni que existen otros controllers.</p>
+<p>Solo hablan con el API server nada mas.
+Cada uno hace su parte y esperan que todo funcione correctamente.</p>
+<h4 id="algunos-controllers">Algunos controllers<a class="headerlink" href="#algunos-controllers" title="Permanent link">¶</a></h4>
+<h5 id="replication-manager">Replication Manager<a class="headerlink" href="#replication-manager" title="Permanent link">¶</a></h5>
+<p>Basicamente espera ser notificado de los Pods y los [[Kubernetes ReplicationController|ReplicationController]] que se van creando, destruyendo o modificando para comprobar si lo que se ha puesto en los [[Kubernetes ReplicationController|ReplicationController]] se sigue cumpliendo. 
+En el caso de que el número de pods no sea el esperado realiza las operaciones adecuadas para poder llegar al estado deseado.</p>
+<p><img alt="KubernetesReplicationManager.png" src="../attachments/KubernetesReplicationManager.png"/></p>
+<p>Si necesita crear nuevos pods utiliza el <code>spec.template</code> del [[Kubernetes ReplicationController|ReplicationController]] para enviar un HTTP POST al API Server con el nuevo manifiesto para que se desencadene la creacion de un nuevo pod.</p>
+<p>El Replication Manager hace su trabajo solo modificando los manifiestos de los recursos mediante el API server <mark>como hacen todos los demas controllers</mark></p>
+<h5 id="replicaset-controller-daemonset-controller-y-job-controller">ReplicaSet Controller, DaemonSet Controller y Job Controller<a class="headerlink" href="#replicaset-controller-daemonset-controller-y-job-controller" title="Permanent link">¶</a></h5>
+<p>Los tres hacen basicamente lo mismo que el Replication Manager, solo que usando distintos recursos... [[Kubernetes ReplicaSet]], [[Kubernetes DaemonSet]] y [[Kubernetes Job]]</p>
+<h5 id="deployment-controller">Deployment Controller<a class="headerlink" href="#deployment-controller" title="Permanent link">¶</a></h5>
+<p>Gestiona las actualizaciones de los [[Kubernetes Deployment|Deployment]].
+Hace un roll-out del deployment cuando se modifica.
+Basicamente crea un nuevo [[Kubernetes ReplicaSet|Replicaset]] y despues realiza una escalacion tanto del antiguo como del nuevo [[Kubernetes ReplicaSet|Replicaset]] basandose en la estrategia definida en el [[Kubernetes Deployment|Deployment]] hasta que todos los viejos Pods han desaparecido y han sido reemplazados por los nuevos.</p>
+<h5 id="statefulset-controller">StatefulSet Controller<a class="headerlink" href="#statefulset-controller" title="Permanent link">¶</a></h5>
+<p>Como los demas Controllers el StatefulSet Controller crea y destruye pods de acuerdo con la especificacion de los [[Kubernetes StatefulSet|StatefulSet]].
+Además es el único que tambien maneja los [[Kubernetes PersistentVolumeClaims| PersistentVolumeClaims]] para cada instancia de Pod</p>
+<h5 id="node-controller">Node Controller<a class="headerlink" href="#node-controller" title="Permanent link">¶</a></h5>
+<p>Maneja los [[Kubernetes Node Resources|Node Resources]] que describen los workers de un cluster.</p>
+<p>Entre otras cosas mantiene una lista actualizada de los nodos del cluster monitorizando las maquinas que se añaden o quitan.
+Tambien monitoriza la salud de los nodos y elimina los Pods de los nodos que no pueden ser alcanzados.</p>
+<h5 id="service-controller">Service Controller<a class="headerlink" href="#service-controller" title="Permanent link">¶</a></h5>
+<p>Cuando un [[Kubernetes Service]] de tipo LoadBalancer se crea se pide un LoadBalancer al sistema para poder hacer el Servicio visible desde el exterior.</p>
+<p>Este controler es el encargado de realizar la operacion de pedir el recurso y de liberarlo cuando no es necesario.</p>
+<h5 id="endpoints-controller">Endpoints Controller<a class="headerlink" href="#endpoints-controller" title="Permanent link">¶</a></h5>
+<p>Los [[Kubernetes Service]] no son enlazados directamente a los Pods, si no que contienen una lista de los endpotins (IP + Puerto), lista que es actualizada de acuerdo con el <code>pod selector</code> del [[Kubernetes Service]]</p>
+<p>El Endpoints Controller  es el encargado de mantener la lista de endpoints constantemente actualizada con las IPs y puertos de los Pods que matchean el <code>label selector</code></p>
+<p>![[KubernetesEndpointsManager.png]]</p>
+<h5 id="namespace-controller">Namespace Controller<a class="headerlink" href="#namespace-controller" title="Permanent link">¶</a></h5>
+<p>Cuando un namespace es borrado todos los recursos que pertenezcan a dicho namespace deben ser borrados.
+Esto es lo que hace el controller.</p>
+<h5 id="persistentvolume-controller">PersistentVolume Controller<a class="headerlink" href="#persistentvolume-controller" title="Permanent link">¶</a></h5>
+<p>Cuando un usuario crea un [[Kubernetes PersistentVolumeClaims]] kubernetes tiene que encontrar el [[Kubernetes PersistentVolume]] al que poder enlazarlo.</p>
+<p>Esto es justamente lo que hace este controller.</p>
+<p>Cuando se crea un nuevo [[Kubernetes PersistentVolumeClaims]] este controller intenta encontrar el mejor match para el.
+- Busca el [[Kubernetes PersistentVolume]] mas pequeño que tenga el modo de acceso adecuado y que tenga una capacidad suficiente para el claim.</p>
+<p>Para esto mantiene una lista ordenada de [[Kubernetes PersistentVolume]] para cada uno de los modos de acceso por orden ascendente de capacidad ( asi que solo tiene que devolver el primero de la lista.)</p>
+<p>Cuando el [[Kubernetes PersistentVolumeClaims]] es borrado el [[Kubernetes PersistentVolume]] es reclamado por el controller de acuerdo con la politica de reclaim  ... ( puede quedarse como está, ser borrado, ser vaciado...)</p>
+<h3 id="kubelet">Kubelet<a class="headerlink" href="#kubelet" title="Permanent link">¶</a></h3>
+<h4 id="intro_2">Intro<a class="headerlink" href="#intro_2" title="Permanent link">¶</a></h4>
+<p>Al contrario que los controllers tango <code>kubelet</code> como <code>kube-proxy</code> se ejecutan en los worker nodes, que es donde se ejecutan los containers de las aplicaciones.</p>
+<h4 id="responsabilidades">Responsabilidades<a class="headerlink" href="#responsabilidades" title="Permanent link">¶</a></h4>
+<p>Kubelet es el responsable de todo lo que sucede en un worker node.</p>
+<p>Lo primero que tiene que hacer es registrar el nodo en el cluster, para eso crea un [[Kubernetes Node Resources]] usando el API Server.</p>
+<p>A partir de ese momento monitoriza todos los Pods para ver cuales son asignados por el Scheduler para ser ejecutados en su nodo, y cuando esto sucede habla con el Container Runtime que haya configurado para que se ejecuten los containers del Pod.</p>
+<p>También monitoriza constantemente los containers de los Pods que están ejecutandose en su Nodo para poder reportar su estatus, eventos y consumo de recursos al API Server.</p>
+<p><code>Kubelet</code> tambien es el responsable de ejecutar los <code>liveness</code> probes, rearrancar los containers cuando la probe falle y por último ser quien borre los contenedores cuando el Pod sea borrado.</p>
+<h4 id="ejecutando-pods-staticos-sin-el-api-server">Ejecutando Pods staticos sin el API Server.<a class="headerlink" href="#ejecutando-pods-staticos-sin-el-api-server" title="Permanent link">¶</a></h4>
+<p>Normalmente <code>kubelet</code> obtiene los manifiestos de los pods que tiene que ejecutar del API server, pero tambien puede ejecutar otros Pods obteniendo los manifiestos de un directorio del Nodo en el que se ejecuta.</p>
+<p>Esto se utiliza principalmente para poder ejecutar componentes del Control Plane como Pods en lugar de como procesos del master node.</p>
+<h3 id="kubernetes-service-proxy">Kubernetes Service Proxy<a class="headerlink" href="#kubernetes-service-proxy" title="Permanent link">¶</a></h3>
+<p>Los Worker Nodes tambien ejecutan el kube-proxy.</p>
+<p>El único cometido de <code>kube-proxy</code> es asegurarse que cuando llamamos a uno de los [[Kubernetes Service]] la llamada termina en uno de los Pods que está dando soporte a dicho servicio.</p>
+<p>Cuando hay mas de un Pod dando soporte a dicho servicio se realiza un load-balancing.</p>
+<p>Se llama <code>kube-proxy</code> porque en la primera de las implementaciones era un proceso en espacio de usuario que había modificado las [[IP tables]] para que las peticiones a los servicios fueran redirigidas a él y luego fuese el quien las reenviase a los Pods adecuados. Todas las conexiones pasaban por él.</p>
+<p>Ahora hay una implementación mucho mejor en performance que simplemente modifica la configuracion de las [[IP tables]] para que las conexiones vayan a parar al Pod directamente sin pasar por el proceso <code>kube-proxy</code>, por lo que ya no es un proxy estrictamente hablando, pero el nombre se le ha quedado.</p>
+<p>La diferencia principal entre los dos modos es que en el antiguo al tener que pasar todos los mensajes por el <code>kube-proxy</code> todos tenian que pasar por el espacio de usuario, lo que era una putada para el performance. 
+ Ademas el antiguo hacía un round robin entre los pods de un servicio mientras que el nuevo lo hace de manera aleatoria.</p>
+<h2 id="kubernetes-add-ons">Kubernetes Add-ons<a class="headerlink" href="#kubernetes-add-ons" title="Permanent link">¶</a></h2>
+<p>Hay algunos otros componentes que, sin ser extrictamente necesarios, permiten realizar acciones interesantes en el cluster. Son los add-ons.</p>
+<p>Estos componentes se instalan en el sistema como Pods, enviando sus manifiestos al API server como cualquier otro pod. Algunos de ellos se instalan mediante [[Kubernetes Deployment|Deployment]] u otro tipo de recurso de <a href="../../ideas/kubernetes.md">k8s</a></p>
+<pre><code class="language-ad-example">title: Algunos add-ons 
+
+Podemos ver como en Minikube el Ingress Controller y el Dashboard son instalados mediante un [[Kubernetes ReplicationController|ReplicationController]]
+```bash
+$ kubectl get rc -n kube-system
+NAME                       DESIRED CURRENT READY AGE
+default-http-backend          1       1      1    6d
+kubernetes-dashboard          1       1      1    6d
+nginx-ingress-controller      1       1      1    6d
+```
+
+Mientras que el DNS es un [[Kubernetes Deployment|Deployment]]
+
+```bash
+$ kubectl get deploy -n kube-system
+NAME         DESIRED CURRENT UP-TO-DATE AVAILABLE AGE
+kube-dns       1      1         1          1       6d
+</code></pre>
+<h3 id="como-funciona-el-dns-server">Como funciona el DNS server<a class="headerlink" href="#como-funciona-el-dns-server" title="Permanent link">¶</a></h3>
+<p>Todos los pods en un cluster estan configurados para utilizar el DNS interno por defecto.</p>
+<p>El DNS se expone mediante un servicio <code>kube-dns</code> para poder asi mover los pods dentro del cluster sin problema.</p>
+<p>La direccion IP del servicio esta configurada como el <code>nameserver</code> en el fichero <code>/etc/resolv.conf</code> dentro de cada container instalado en el cluster.</p>
+<p><code>kube-dns</code> utiliza el mecanismo de notificaciones del API server para observar cambios en los [[Kubernetes Service]] y en los [[Kubernetes Endpoint|Endpoints]] y actualiza sus tablas internas con cada uno de los cambios.
+Durante el momento en el que se actualiza un [[Kubernetes Service]] o un [[Kubernetes Endpoint]] hasta que el <code>kube-dns</code> recibe la notificacion y actualiza sus registros puede que haya información erronea en el DNS</p>
+<h2 id="ejemplo-de-como-funciona-todo-junto">Ejemplo de como funciona todo junto<a class="headerlink" href="#ejemplo-de-como-funciona-todo-junto" title="Permanent link">¶</a></h2>
+<p>Todo kubernetes esta formado por
+<mark>pequeños elementos muy poco acoplados con una buena separacion de responsabilidades ( cada uno hace una cosa y solo una puta cosa) y esa es la razón por la que todo funciona bien</mark></p>
+<p>Vamos a ver como funcionan todas las piezas en armonía para la creacion de un Pod.
+Normalmente no se crea un Pod desde cero, de modo que vamos a ver como se realiza la creacion de un Pod, pero partiendo del manifiesto de un Deployment.</p>
+<p>Antes siquiera de empezar ya tenemos la siguiente figura, donde cada uno de los componentes está escuchando las notificaciones adecuadas del API server respecto a los recursos que le son interesantes ( normalmente solo uno o un par a lo sumo)</p>
+<p>![[KubernetesWatchingResources.png]]</p>
+<p>Bien, una vez que <code>kubectl</code> en via mediante un HTTP POST el manifiesto del deployment al API Server esta es la cadena de acontecimientos que se desata.</p>
+<p>![[KubernetesPodCreationChainAction.png]]</p>
+<p>Se pueden ver todos los eventos que van sucediendo en el cluster mediante el siguiente comando de <code>kubectl</code></p>
+<pre><code class="language-bash">kubectl get events --watch
+</code></pre>
+<h2 id="entendiendo-que-pasa-cuando-se-ejecuta-un-pod">Entendiendo que pasa cuando se ejecuta un POD<a class="headerlink" href="#entendiendo-que-pasa-cuando-se-ejecuta-un-pod" title="Permanent link">¶</a></h2>
+<p>Cuando ejecutamos un Pod en uno de los nodos no solo se ejecutan los containers que tenemos definidos en el pod, si no que ademas se ejecuta otro pod.</p>
+<p>Supongamos que solo tenemos un container en el pod para hacerlo mas sencillo.</p>
+<pre><code class="language-bash">$ kubectl run nginx --image=nginx
+deployment "nginx" created
+</code></pre>
+<p>Si vamos al nodo en el que se está ejecutando el pod podemos ver los siguientes contenedores ejecutandose.</p>
+<pre><code class="language-bash">docker@minikubeVM:~$ docker ps
+CONTAINER ID IMAGE                COMMAND                CREATED
+c917a6f3c3f7 nginx                "nginx -g 'daemon off" 4 seconds ago
+98b8bf797174 gcr.io/.../pause:3.0 "/pause"               7 seconds ago
+</code></pre>
+<p><strong>Podemos ver que hay un contenedor adicional ejecutandose</strong>
+- Dicho contenedor no está ejecutando nada porque esta en <code>pause</code>
+- Ademas podemos ver que <strong>se ha creado antes que el contenedor que teniamos definido en el pod</strong></p>
+<p>Ese contenedor <mark>es parte de la infraestructura</mark>
+- Todos los contenedores de un mismo pod comparten algunos <code>linux namespaces</code> como por ejemplo el espacio de red ...
+- Este contenedor es el que contiene todos los <code>linux namespaces</code> que son compartidos por todos los contenedores de un mismo pod.</p>
+<p>![[KubernetesPodInfraContainer.png]]</p>
+<p>Todos los contenedores del mismo pod tienen que compartir los mismos <code>linux namespaces</code> aunque se reinicien, pero eso es posible porque estos están en este container, de manera que aunque los demás se reinicien los namespaces se mantienen.
+El ciclo de vida de este contenedor esta ligado intimamente al del pod.
+Si por cualquier motivo este container resultase parado, <code>kubelet</code> volvería a recrearlo y después recrearía todos los demas containers del pod para poder asignarles los <code>linux namespaces</code> del nuevo container.</p>
+<h3 id="interpod-networking">Interpod networking<a class="headerlink" href="#interpod-networking" title="Permanent link">¶</a></h3>
+<ul>
+<li>Cada pod tiene un IP unica</li>
+<li>Todos los pods pueden comunicarse entre si mediante conexiones "planas" es decir sin NAT</li>
+</ul>
+<p>Kubernetes no es quien configura esto, es el administrador quien tiene que conseguirlo. 
+Kubernetes solo pone el requisito.</p>
+<p>La red tiene que estar configurada de tal manera que la IP que un Pod ve de si mismo sea la misma que los demás pueden ver de él.
+Todos los containers deben de poder comunicarse entre ellos independientemente de si estan siendo ejecutados en el mismo o en distintos nodos.</p>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Note 2" class="md-footer__link md-footer__link--prev" href="../../../Topic%201/Note%202/" rel="prev">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Previous
+              </span>
+              Note 2
+            </div>
+</div>
+</a>
+<a aria-label="Next: Kubernetes Default Scheduler High level dynamic architecture" class="md-footer__link md-footer__link--next" href="../Kubernetes%20Default%20Scheduler%20High%20level%20dynamic%20architecture/" rel="next">
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Next
+              </span>
+              Kubernetes Default Scheduler High level dynamic architecture
+            </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+<script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</body>
+</html>
