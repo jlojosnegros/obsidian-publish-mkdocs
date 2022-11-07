@@ -1,5 +1,8 @@
+---
+tags: git
+---
 # Switching Development Contexts with Git
-#git
+
 
 ## Context
 
@@ -80,47 +83,46 @@ git worktree list
 ```
 ## Links and more info
 - Official docs for `worktree`: [https://git-scm.com/docs/git-worktree/2.35.0](https://git-scm.com/docs/git-worktree/2.35.0)
-- An StackOverflow thread with some additional info regarding commands: https://stackoverflow.com/a/45491767
+- [An StackOverflow thread with some additional info regarding commands](https://stackoverflow.com/a/45491767)
 
 
 ## Bonus track: How I layout my workingtrees
 - Create a new folder with the project name
 
-    ```bash
-    $> mkdir awesomeProject
-    ```
+```bash
+$> mkdir awesomeProject
+```
+
 - Clone the `main` (or `master` if you still live in the old good days) in its own folder
 
-	```bash
-    $> cd awesomeProject
-    awesomeProject$> git clone git@github.com:jlojosnegros/awesome-project.git main
-    ```
-    
+```bash
+$> cd awesomeProject
+awesomeProject$> git clone git@github.com:jlojosnegros/awesome-project.git main
+```
+
 - From there you could create your new workingtrees to work on your features using sibling folders
 
-	```bash
-    awesomeProject$> cd main
-    awesomeProject/main[main {origin/main}]$> git worktree list
-    ~/awesomeProject/main                   d4f9c34 [main]
-    ```
+```bash
+awesomeProject$> cd main
+awesomeProject/main[main {origin/main}]$> git worktree list
+~/awesomeProject/main                   d4f9c34 [main]
+```
 
-    
-    ```bash
-    awesomeProject/main[main {origin/main}]$> git worktree add -b newAwesomeFeature ../new-awesome-feature
-    Preparing worktree (new branch 'newAwesomeFeature')
-    HEAD is now at d4f9c34 My first and last commit
-    ```
+```bash
+awesomeProject/main[main {origin/main}]$> git worktree add -b newAwesomeFeature ../new-awesome-feature
+Preparing worktree (new branch 'newAwesomeFeature')
+HEAD is now at d4f9c34 My first and last commit
+```
 
-    
-    ```bash
-    awesomeProject/main[main {origin/main}]$> git worktree list
-    ~/awesomeProject/main                                  d4f9c34 [main]
-    ~/awesomeProject/new-awesome-feature                   d4f9c34 [newAwesomeFeature]
-    ```
-    
-    ```bash
-    awesomeProject/main[main {origin/main}]$> cd ../new-awesome-feature
-    awesomeProject/new-awesome-feature[newAwesomeFeature {L}]$>
-    ```
+```bash
+awesomeProject/main[main {origin/main}]$> git worktree list
+~/awesomeProject/main                                  d4f9c34 [main]
+~/awesomeProject/new-awesome-feature                   d4f9c34 [newAwesomeFeature]
+```
+ 
+```bash
+awesomeProject/main[main {origin/main}]$> cd ../new-awesome-feature
+awesomeProject/new-awesome-feature[newAwesomeFeature {L}]$>
+```
 ## TL;DR
 TBD
