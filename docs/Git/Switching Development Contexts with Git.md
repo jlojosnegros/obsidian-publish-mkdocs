@@ -95,6 +95,7 @@ git worktree list
     $> cd awesomeProject
     awesomeProject$> git clone git@github.com:jlojosnegros/awesome-project.git main
     ```
+    
 - From there you could create your new workingtrees to work on your features using sibling folders
 
 	```bash
