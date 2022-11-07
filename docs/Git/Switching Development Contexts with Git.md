@@ -79,7 +79,7 @@ git worktree add <new_folder_path> <existing_branch_name>
 git worktree list
 ```
 ## Links and more info
-- Official docs for `worktree`: https://git-scm.com/docs/git-worktree/2.35.0
+- Official docs for `worktree`: [https://git-scm.com/docs/git-worktree/2.35.0](https://git-scm.com/docs/git-worktree/2.35.0)
 - An StackOverflow thread with some additional info regarding commands: https://stackoverflow.com/a/45491767
 
 
